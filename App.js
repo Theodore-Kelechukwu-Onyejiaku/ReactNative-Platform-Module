@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      {Platform.OS === "ios" ?
+        <Text style={styles.text}>Styling Specific Platforms using the Platform Module (For iOS).</Text>
+        : <Text style={styles.text}>Styling Specific Platforms using the Platform Module (For android)</Text>
+      }
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +16,17 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Platform.OS === "ios" ? "grey" : "white",
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: Platform.select({
+      ios: "center",
+      android: 'flex-end',
+    }),
+    padding: 20,
+    textAlign: 'center',
+  },
+  text: {
+    color: Platform.OS === "android" ? "black" : "white",
+    fontSize: 36,
   },
 });
