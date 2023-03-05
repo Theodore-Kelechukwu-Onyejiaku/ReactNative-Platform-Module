@@ -1,11 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View, Switch, Platform, StyleSheet } from 'react-native';
 
 export default function App() {
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {Platform.OS === 'ios' ?
+        <Switch
+          trackColor={{ false: 'orange', true: 'green' }}
+          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+          ios_backgroundColor="red" // only available for ios and not for android
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
+        :
+        <View style={styles.container}>
+          <Switch
+            trackColor={{ false: 'red', true: 'green' }}
+            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />
+        </View>
+      }
     </View>
   );
 }
@@ -13,8 +35,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    justifyContent: "center",
+    alignItems: 'center'
+  }
+})
